@@ -23,7 +23,8 @@ Build a static bundle and point Transmission at it:
 npm install
 npm run build            # → dist/
 mkdir -p /path/to/transmission-web-home
-tar -xzf transmix-dist.tar.gz -C /path/to/transmission-web-home/   # or copy dist/* there
+tar -xzf transmix-v0.0.2.tar.gz -C /path/to/transmission-web-home/   # or copy dist/* there
+# (.zip with the same contents is also attached to each GitHub Release)
 ```
 
 Run Transmission with the custom UI directory:
@@ -36,6 +37,7 @@ Then open `http://server:9091/` (it redirects to `/transmission/web/`, where the
 
 Notes:
 
+- Prebuilt bundles (`.tar.gz` + `.zip`) are attached to [GitHub Releases](https://github.com/id0o0bi/transmix/releases).
 - The build targets the canonical base path `/transmission/web/`; RPC is called via the relative URL `../rpc`, so it works on any host, over http or https, and behind reverse proxies that keep Transmission's path layout.
 
 ## Development

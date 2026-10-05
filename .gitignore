@@ -23,5 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
-# Build artifact (attach to GitHub Releases instead)
-transmix-dist.tar.gz
+# Release archives (attached to GitHub Releases instead)
+transmix-*.tar.gz
+transmix-*.zip
