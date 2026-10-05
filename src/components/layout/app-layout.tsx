@@ -3,6 +3,7 @@ import { useQueryClient } from "@tanstack/react-query"
 import { AlertCircle, Menu, PanelLeftOpen, RefreshCw } from "lucide-react"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { ContextMenu, ContextMenuTrigger } from "@/components/ui/context-menu"
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet"
 import { Toolbar } from "@/components/layout/toolbar"
@@ -32,6 +33,7 @@ import { useSession } from "@/hooks/use-session"
 import { useTorrentSelection } from "@/hooks/use-torrent-selection"
 import { useSpeedHistory } from "@/hooks/use-speed-history"
 import { useIsMobile } from "@/hooks/use-is-mobile"
+import { useDocumentTitle } from "@/hooks/use-document-title"
 import { loadPref, savePref } from "@/lib/prefs"
 import { readAsBase64 } from "@/lib/files"
 import { useDragResize } from "@/lib/use-drag"
@@ -97,6 +99,7 @@ const MemoDetailsPanel = memo(DetailsPanel)
 
 
 export function AppLayout() {
+  useDocumentTitle()
   const isMobile = useIsMobile()
 
   const [viewMode, setViewMode] = useState<ViewMode>(() =>
@@ -496,26 +499,35 @@ export function AppLayout() {
   }, [viewMode, richOrder, compactOrder])
 
   const sidebarSlot = useMemo(() => (isMobile ? (
-    <Button
-      variant="ghost"
-      size="icon"
-      className="size-9 shrink-0 sm:size-8"
-      onClick={() => setSidebarOpenMobile(true)}
-      aria-label="Open menu"
-    >
-      <Menu className="size-4" />
-    </Button>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="size-9 shrink-0 sm:size-8"
+          onClick={() => setSidebarOpenMobile(true)}
+          aria-label="Open menu"
+        >
+          <Menu className="size-4" />
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>Open menu</TooltipContent>
+    </Tooltip>
   ) : sidebarCollapsed ? (
-    <Button
-      variant="ghost"
-      size="icon"
-      className="size-9 shrink-0 sm:size-8"
-      onClick={toggleSidebarCollapsed}
-      aria-label="Show sidebar"
-      title="Show sidebar"
-    >
-      <PanelLeftOpen className="size-4" />
-    </Button>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="size-9 shrink-0 sm:size-8"
+          onClick={toggleSidebarCollapsed}
+          aria-label="Show sidebar"
+        >
+          <PanelLeftOpen className="size-4" />
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>Show sidebar</TooltipContent>
+    </Tooltip>
   ) : undefined), [isMobile, sidebarCollapsed, toggleSidebarCollapsed])
 
   const trailingSlot = useMemo(() => (

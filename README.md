@@ -1,32 +1,64 @@
-# React + TypeScript + Vite
+# TransMix
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A modern, drop-in replacement for the Transmission BitTorrent web UI. Dark & light themes, live transfer graph, rich torrent details, and a mobile-ready layout — no backend of its own, it talks straight to Transmission's `/transmission/rpc`.
 
-Currently, two official plugins are available:
+![TransMix screenshot](docs/screenshot.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Highlights
 
-## React Compiler
+- **Drop-in replacement** for `transmission-web` via `TRANSMISSION_WEB_HOME` — same origin RPC, no config, no CORS
+- **Torrent list** in compact or rich view: sortable columns, search, status/label/tracker/path filters, column customization, drag-to-resize details panel
+- **Details panel**: Info, Files (per-file priorities), Peers, Trackers, and a virtualized **piece map** with skipped-piece markers and hover progress ring
+- **Speed graph** with live ↓/↑ rates; global speeds also shown in the **tab title** (`↓ 120 KiB/s ↑ 80 KiB/s - TransMix`)
+- **Dialogs**: add torrent, move data, session settings, per-torrent settings, labels, remove-with-delete-data confirmation
+- **Sidebar**: server statistics, free space, this-session totals, uptime
+- Dark & light themes (follows system, persisted), uniform toolbars with tooltips, context menus
+- Mobile-ready responsive layout
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Deployment
 
-## Expanding the Oxlint configuration
+Build a static bundle and point Transmission at it:
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+npm install
+npm run build            # → dist/
+mkdir -p /path/to/transmission-web-home
+tar -xzf transmix-dist.tar.gz -C /path/to/transmission-web-home/   # or copy dist/* there
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+Run Transmission with the custom UI directory:
+
+```bash
+TRANSMISSION_WEB_HOME=/path/to/transmission-web-home transmission-daemon
+```
+
+Then open `http://server:9091/` (it redirects to `/transmission/web/`, where the UI is served).
+
+Notes:
+
+- The build targets the canonical base path `/transmission/web/`; RPC is called via the relative URL `../rpc`, so it works on any host, over http or https, and behind reverse proxies that keep Transmission's path layout.
+
+## Development
+
+```bash
+npm install
+npm run dev        # dev server at http://localhost:5173/transmission/web/
+```
+
+The dev server proxies `/transmission/rpc` to `VITE_RPC_PROXY_TARGET` (default `http://127.0.0.1:9091`).
+
+```bash
+npm run build      # production bundle → dist/
+npm run preview    # serve dist/ at http://localhost:5174/transmission/web/
+npm test           # vitest
+npm run lint       # oxlint
+npx tsc -b         # typecheck
+```
+
+## Tech stack
+
+Vite · React 19 · TypeScript (strict) · Tailwind CSS v4 · shadcn/ui on Radix · TanStack Query & Virtual · lucide-react · vitest
+
+## Compatibility
+
+Built and tested against Transmission **4.1.3** (RPC v19). Should work with Transmission 3.x/4.x — the UI only uses stable session/torrent RPC methods.

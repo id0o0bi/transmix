@@ -1,6 +1,7 @@
 import { Pencil, Plus, RotateCcw, Trash2 } from "lucide-react"
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { useSession } from "@/hooks/use-session"
@@ -162,20 +163,26 @@ export function TrackerList({ torrentId }: { torrentId: number }) {
           <span className="min-w-0 flex-1 truncate text-xs text-muted-foreground">
             One tracker per line, empty line between tiers.
           </span>
-          <Button
-            variant="outline"
-            size="sm"
-            className="h-8 shrink-0 text-xs"
-            onClick={() => {
-              if (original !== null) setText(original)
-            }}
-            disabled={original === null || text === original}
-            aria-label="Restore original trackers"
-            title="Fill in the trackers this torrent/magnet came with (as first seen in transmix)"
-          >
-            <RotateCcw className="size-3.5" />
-            Restore original
-          </Button>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-8 shrink-0 text-xs"
+                onClick={() => {
+                  if (original !== null) setText(original)
+                }}
+                disabled={original === null || text === original}
+                aria-label="Restore original trackers"
+              >
+                <RotateCcw className="size-3.5" />
+                Restore original
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              Fill in the trackers this torrent/magnet came with (as first seen in transmix)
+            </TooltipContent>
+          </Tooltip>
           <Button
             variant="outline"
             size="sm"
@@ -226,16 +233,20 @@ export function TrackerList({ torrentId }: { torrentId: number }) {
         >
           <Plus className="size-3.5" />
         </Button>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="size-6 shrink-0 text-muted-foreground hover:text-foreground"
-          onClick={startEdit}
-          aria-label="Edit tracker list"
-          title="Edit tracker list"
-        >
-          <Pencil className="size-3.5" />
-        </Button>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="size-6 shrink-0 text-muted-foreground hover:text-foreground"
+              onClick={startEdit}
+              aria-label="Edit tracker list"
+            >
+              <Pencil className="size-3.5" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Edit tracker list</TooltipContent>
+        </Tooltip>
       </div>
 
       {showAdd && (

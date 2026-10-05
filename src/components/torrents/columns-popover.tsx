@@ -7,6 +7,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { allFields, defaultCompactOrder, defaultRichOrder, type FieldDef } from "@/components/torrents/fields"
 import { cn } from "@/lib/utils"
 
@@ -107,17 +108,21 @@ export function ColumnsPopover({ mode, compactOrder, richOrder, onOrderChange }:
 
   return (
     <Popover>
-      <PopoverTrigger asChild>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="size-9 sm:size-8"
-          aria-label="Customize columns"
-          title={mode === "compact" ? "Columns" : "Fields"}
-        >
-          <Columns3 className="size-4" />
-        </Button>
-      </PopoverTrigger>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <PopoverTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="size-9 sm:size-8"
+              aria-label="Customize columns"
+            >
+              <Columns3 className="size-4" />
+            </Button>
+          </PopoverTrigger>
+        </TooltipTrigger>
+        <TooltipContent>{mode === "compact" ? "Columns" : "Fields"}</TooltipContent>
+      </Tooltip>
       <PopoverContent align="end" className="w-72 max-w-[calc(100vw-1rem)] p-2">
         <div className="mb-2 flex items-center justify-between gap-2">
           <span className="text-sm font-medium">

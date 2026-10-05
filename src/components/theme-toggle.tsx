@@ -8,6 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { cn } from "@/lib/utils"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 
 const themes: { value: Theme; label: string; icon: typeof Sun }[] = [
   { value: "light", label: "Light", icon: Sun },
@@ -27,17 +28,21 @@ export function ThemeToggle({ className, size = "sm" }: ThemeToggleProps) {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant="ghost"
-          size={size === "sm" ? "icon" : "default"}
-          className={cn(size === "sm" && "size-7", className)}
-          aria-label="Theme"
-          title={`Theme: ${theme} (${resolvedTheme})`}
-        >
-          <ActiveIcon />
-        </Button>
-      </DropdownMenuTrigger>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              size={size === "sm" ? "icon" : "default"}
+              className={cn(size === "sm" && "size-7", className)}
+              aria-label="Theme"
+            >
+              <ActiveIcon />
+            </Button>
+          </DropdownMenuTrigger>
+        </TooltipTrigger>
+        <TooltipContent>{`Theme: ${theme} (${resolvedTheme})`}</TooltipContent>
+      </Tooltip>
       <DropdownMenuContent align="end" side="top">
         {themes.map(({ value, label, icon: Icon }) => (
           <DropdownMenuItem key={value} onClick={() => setTheme(value)}>

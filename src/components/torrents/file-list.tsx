@@ -23,6 +23,7 @@ import {
   ContextMenuTrigger,
 } from "@/components/ui/context-menu"
 import { Input } from "@/components/ui/input"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { useTorrentActions } from "@/hooks/use-torrent-actions"
 import { useTorrentFiles, type TorrentFileEntry } from "@/hooks/use-torrent-detail"
 import { formatBytes } from "@/lib/format"
@@ -366,21 +367,25 @@ export function FileList({ torrentId }: { torrentId: number }) {
                   className="h-6 min-w-0 flex-1 px-2 text-xs"
                 />
               )}
-              <button
-                type="button"
-                className="ml-auto flex size-5 shrink-0 items-center justify-center rounded-sm text-muted-foreground transition-colors hover:text-foreground"
-                onClick={() => setSearchOpen((open) => !open)}
-                aria-label="Search files"
-                aria-pressed={searchOpen || search !== ""}
-                title="Search files"
-              >
-                <Search
-                  className={cn(
-                    "size-3.5",
-                    (searchOpen || search !== "") && "text-foreground",
-                  )}
-                />
-              </button>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    type="button"
+                    className="ml-auto flex size-5 shrink-0 items-center justify-center rounded-sm text-muted-foreground transition-colors hover:text-foreground"
+                    onClick={() => setSearchOpen((open) => !open)}
+                    aria-label="Search files"
+                    aria-pressed={searchOpen || search !== ""}
+                  >
+                    <Search
+                      className={cn(
+                        "size-3.5",
+                        (searchOpen || search !== "") && "text-foreground",
+                      )}
+                    />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent>Search files</TooltipContent>
+              </Tooltip>
             </span>
             <SortHead
               label="%"

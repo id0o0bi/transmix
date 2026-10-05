@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Build artifact (attach to GitHub Releases instead)
+transmix-dist.tar.gz

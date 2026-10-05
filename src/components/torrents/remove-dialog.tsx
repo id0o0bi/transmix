@@ -72,7 +72,7 @@ export function RemoveDialog({ open, onOpenChange, torrents, onConfirm }: Remove
               onConfirm(removeData)
               setRemoveData(false)
             }}
-            className="bg-destructive text-white hover:bg-destructive/90"
+            className="bg-destructive text-white hover:bg-destructive/90 dark:text-zinc-950"
           >
             <Trash2 className="mr-1.5 size-4" />
             Remove

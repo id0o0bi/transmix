@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import { useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import {
   Dialog,
   DialogContent,
@@ -617,15 +618,21 @@ export function SettingsDialog({ open, onOpenChange }: SettingsDialogProps) {
                     onChange={(e) => patch({ peerPort: e.target.value })}
                     className="w-28"
                   />
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => void testPort()}
-                    disabled={portTest === "loading"}
-                    title="Checks the currently configured port. Save changes first."
-                  >
-                    {portTest === "loading" ? "Testing…" : "Test port"}
-                  </Button>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => void testPort()}
+                        disabled={portTest === "loading"}
+                      >
+                        {portTest === "loading" ? "Testing…" : "Test port"}
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      Checks the currently configured port. Save changes first.
+                    </TooltipContent>
+                  </Tooltip>
                   {portTest === "open" && (
                     <span className="text-xs text-emerald-600 dark:text-emerald-400">Port is open</span>
                   )}
@@ -723,17 +730,23 @@ export function SettingsDialog({ open, onOpenChange }: SettingsDialogProps) {
                         ? `Blocklist contains ${blocklistSize.toLocaleString()} rules`
                         : "Blocklist is empty"}
                   </span>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => void updateBlocklist()}
-                    disabled={
-                      blocklistUpdating || blocklistUnsupported || form === null || !form.blocklistEnabled
-                    }
-                    title="Fetches the currently configured blocklist. Save changes first."
-                  >
-                    {blocklistUpdating ? "Updating…" : "Update blocklist"}
-                  </Button>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => void updateBlocklist()}
+                        disabled={
+                          blocklistUpdating || blocklistUnsupported || form === null || !form.blocklistEnabled
+                        }
+                      >
+                        {blocklistUpdating ? "Updating…" : "Update blocklist"}
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      Fetches the currently configured blocklist. Save changes first.
+                    </TooltipContent>
+                  </Tooltip>
                 </div>
               </div>
               <div className="border-t pt-4 space-y-1">

@@ -168,32 +168,40 @@ export function Toolbar({
           role="group"
           aria-label="View mode"
         >
-          <button
-            type="button"
-            className={cn(
-              "flex h-[30px] w-9 items-center justify-center rounded-md text-muted-foreground transition-all hover:text-foreground sm:h-[26px] sm:w-7",
-              viewMode === "compact" && "bg-background text-foreground shadow-sm",
-            )}
-            onClick={() => onViewModeChange("compact")}
-            aria-label="Compact view"
-            aria-pressed={viewMode === "compact"}
-            title="Compact view"
-          >
-            <List className="size-4" />
-          </button>
-          <button
-            type="button"
-            className={cn(
-              "flex h-[30px] w-9 items-center justify-center rounded-md text-muted-foreground transition-all hover:text-foreground sm:h-[26px] sm:w-7",
-              viewMode === "rich" && "bg-background text-foreground shadow-sm",
-            )}
-            onClick={() => onViewModeChange("rich")}
-            aria-label="Rich view"
-            aria-pressed={viewMode === "rich"}
-            title="Rich view"
-          >
-            <ListTree className="size-4" />
-          </button>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
+                type="button"
+                className={cn(
+                  "flex h-[30px] w-9 items-center justify-center rounded-md text-muted-foreground transition-all hover:text-foreground sm:h-[26px] sm:w-7",
+                  viewMode === "compact" && "bg-background text-foreground shadow-sm",
+                )}
+                onClick={() => onViewModeChange("compact")}
+                aria-label="Compact view"
+                aria-pressed={viewMode === "compact"}
+              >
+                <List className="size-4" />
+              </button>
+            </TooltipTrigger>
+            <TooltipContent>Compact view</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
+                type="button"
+                className={cn(
+                  "flex h-[30px] w-9 items-center justify-center rounded-md text-muted-foreground transition-all hover:text-foreground sm:h-[26px] sm:w-7",
+                  viewMode === "rich" && "bg-background text-foreground shadow-sm",
+                )}
+                onClick={() => onViewModeChange("rich")}
+                aria-label="Rich view"
+                aria-pressed={viewMode === "rich"}
+              >
+                <ListTree className="size-4" />
+              </button>
+            </TooltipTrigger>
+            <TooltipContent>Rich view</TooltipContent>
+          </Tooltip>
         </div>
       </div>
 

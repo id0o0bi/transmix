@@ -5,6 +5,7 @@ import type { SpeedPoint } from "@/hooks/use-speed-history"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { SpeedChart } from "@/components/layout/speed-chart"
 import { Button } from "@/components/ui/button"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import {
   Dialog,
   DialogContent,
@@ -75,26 +76,50 @@ export function Sidebar({ points, onCollapse }: SidebarProps) {
   return (
     <aside className="flex h-full w-full flex-col gap-5 overflow-y-auto p-3">
       <div className="flex items-center justify-between">
-        <div className="flex flex-col gap-1">
-          <span className="text-lg leading-6 font-semibold tracking-[0.04em] text-foreground">
-            transmix
-          </span>
-          <span className="w-fit rounded-[3px] bg-primary px-1.5 font-mono text-[9px] leading-[1.2] font-medium text-primary-foreground">
-            {__APP_VERSION__}
-          </span>
+        <div className="flex items-center gap-2.5">
+          <svg aria-hidden viewBox="0 0 24 24" className="size-7 shrink-0" fill="none">
+            <g transform="rotate(30 12 12)">
+              <path
+                d="M9 4v13M5.5 13.5 9 17l3.5-3.5"
+                className="stroke-sky-500"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M15 20V7M11.5 10.5 15 7l3.5 3.5"
+                className="stroke-emerald-500"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </g>
+          </svg>
+          <div className="flex flex-col">
+            <span className="text-lg leading-5 font-semibold tracking-[0.04em] text-foreground">
+              TransMix
+            </span>
+            <span className="w-fit rounded-[3px] bg-primary px-1.5 font-mono text-[9px] leading-[1.4] font-medium text-primary-foreground">
+              {__APP_VERSION__}
+            </span>
+          </div>
         </div>
         <div className="flex items-center">
           {onCollapse !== undefined && (
-            <Button
-              variant="ghost"
-              size="icon"
-              className="size-8"
-              onClick={onCollapse}
-              aria-label="Hide sidebar"
-              title="Hide sidebar"
-            >
-              <PanelLeftClose className="size-4" />
-            </Button>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="size-8"
+                  onClick={onCollapse}
+                  aria-label="Hide sidebar"
+                >
+                  <PanelLeftClose className="size-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Hide sidebar</TooltipContent>
+            </Tooltip>
           )}
         </div>
       </div>
@@ -103,16 +128,20 @@ export function Sidebar({ points, onCollapse }: SidebarProps) {
         <div className="mb-2 flex items-center justify-between text-xs">
           <span className="font-medium text-muted-foreground">Transfer</span>
           {last !== undefined && (
-            <button
-              type="button"
-              onClick={() => setGraphOpen(true)}
-              className="-mr-1 flex cursor-pointer items-center gap-2 rounded-md px-1 py-0.5 tabular-nums transition-colors hover:bg-accent"
-              aria-label="Expand speed graph"
-              title="Expand speed graph"
-            >
-              <span className="text-sky-500">↓ {formatBytes(last.down)}/s</span>
-              <span className="text-emerald-500">↑ {formatBytes(last.up)}/s</span>
-            </button>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  type="button"
+                  onClick={() => setGraphOpen(true)}
+                  className="-mr-1 flex cursor-pointer items-center gap-2 rounded-md px-1 py-0.5 tabular-nums transition-colors hover:bg-accent"
+                  aria-label="Expand speed graph"
+                >
+                  <span className="text-sky-500">↓ {formatBytes(last.down)}/s</span>
+                  <span className="text-emerald-500">↑ {formatBytes(last.up)}/s</span>
+                </button>
+              </TooltipTrigger>
+              <TooltipContent>Expand speed graph</TooltipContent>
+            </Tooltip>
           )}
         </div>
         <SpeedChart points={points} height={84} />

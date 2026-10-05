@@ -7,6 +7,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { Separator } from "@/components/ui/separator"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import {
   activeFilterCount,
   defaultFilterState,
@@ -155,20 +156,26 @@ export function FiltersPopover({ torrents, filter, onFilterChange }: FiltersPopo
 
   return (
     <Popover>
-      <PopoverTrigger asChild>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="relative size-9 sm:size-8"
-          aria-label="Filters"
-          title={`Filters${activeCount > 0 ? ` (${activeCount} active)` : ""}`}
-        >
-          <Filter className="size-4" />
-          {activeCount > 0 && (
-            <span className="absolute top-1 right-1 size-1.5 rounded-full bg-primary" />
-          )}
-        </Button>
-      </PopoverTrigger>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <PopoverTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="relative size-9 sm:size-8"
+              aria-label="Filters"
+            >
+              <Filter className="size-4" />
+              {activeCount > 0 && (
+                <span className="absolute top-1 right-1 size-1.5 rounded-full bg-primary" />
+              )}
+            </Button>
+          </PopoverTrigger>
+        </TooltipTrigger>
+        <TooltipContent>
+          {`Filters${activeCount > 0 ? ` (${activeCount} active)` : ""}`}
+        </TooltipContent>
+      </Tooltip>
       <PopoverContent align="start" className="w-80 max-w-[calc(100vw-1rem)] p-2">
         <div className="flex items-center justify-between px-1 pb-1">
           <span className="text-sm font-semibold">Filters</span>
