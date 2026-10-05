@@ -100,7 +100,7 @@ export function Sidebar({ points, onCollapse }: SidebarProps) {
               TransMix
             </span>
             <span className="w-fit rounded-[3px] bg-primary px-1.5 font-mono text-[9px] leading-[1.4] font-medium text-primary-foreground">
-              {__APP_VERSION__}
+              {__GIT_HASH__ !== "" ? `${__APP_VERSION__}-${__GIT_HASH__}` : __APP_VERSION__}
             </span>
           </div>
         </div>
